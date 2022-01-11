@@ -2877,8 +2877,7 @@ function generateUser(
   name,
   diziSeviyor,
   motorSeviyor,
-  basketSeviyor,
-  sevdigiRenk
+  basketSeviyor
 ) {
   var div = document.createElement("div");
   div.className = "card";
@@ -2889,8 +2888,6 @@ function generateUser(
     motorSeviyor == 1 ? "Evet" : "Hayır"
   }</li><li class="list-group-item">Basket seviyor: ${
     basketSeviyor == 1 ? "Evet" : "Hayır"
-  }</li><li class="list-group-item">Sevdiği renk: ${
-    sevdigiRenk == 0 ? "Kırmızı" : sevdigiRenk == 1 ? "Yeşil" : "Mavi"
   }</li></ul>`;
   return div;
 }
@@ -2903,7 +2900,6 @@ for (var i = 0; i < max; i++) {
     diziSeviyor: getRandomInt(0, 200) % 2 == 0,
     motorSeviyor: getRandomInt(0, 200) % 2 == 0,
     basketSeviyor: getRandomInt(0, 200) % 2 == 0,
-    sevdigiRenk: getRandomInt(0, 3),
   });
   let person = people[i];
   document
@@ -2914,7 +2910,6 @@ for (var i = 0; i < max; i++) {
         person.diziSeviyor,
         person.motorSeviyor,
         person.basketSeviyor,
-        person.sevdigiRenk
       )
     );
 }
@@ -2948,15 +2943,11 @@ document.getElementById("match").onclick = () => {
     var dizi_seviyor = document.getElementById("diziSelect").value;
     var motor_seviyor = document.getElementById("motorSelect").value;
     var basket_seviyor = document.getElementById("basketbolSelect").value;
-    var _sevdigi_renk = document.getElementById("renkSelect").value;
     let q = people.map((x, y) => {
       let neurilified = {
         diziSeviyor: x.diziSeviyor ? 1 : 0,
         motorSeviyor: x.motorSeviyor ? 1 : 0,
         basketSeviyor: x.basketSeviyor ? 1 : 0,
-        kirmiziSeviyor: x.sevdigiRenk == 0 ? 1 : 0,
-        yesilSeviyor: x.sevdigiRenk == 1 ? 1 : 0,
-        maviSeviyor: x.sevdigiRenk == 2 ? 1 : 0,
       };
       let user = {};
       user[x.name] = y;
@@ -2967,22 +2958,16 @@ document.getElementById("match").onclick = () => {
       dizi_seviyor == "1" ? 1 : 0,
       motor_seviyor == "1" ? 1 : 0,
       basket_seviyor == "1" ? 1 : 0,
-      _sevdigi_renk == 0 ? 1 : 0,
-      _sevdigi_renk == 1 ? 1 : 0,
-      _sevdigi_renk == 2 ? 1 : 0,
     ];
     var trg = {
       diziSeviyor: _data[0],
       motorSeviyor: _data[1],
       basketSeviyor: _data[2],
-      kirmiziSeviyor: _data[3],
-      yesilSeviyor: _data[4],
-      maviSeviyor: _data[5],
     };
 
     var loader = new bootstrap.Modal(document.getElementById('qpp'), {
-      keyboard: false,
-      show: false,
+      keyboard: true,
+      show: true,
     })
     loader.show();
     mainModal.hide();
@@ -2993,7 +2978,7 @@ document.getElementById("match").onclick = () => {
     setTimeout(() => {
       let target = document.getElementById("split");
       target.innerHTML = "";
-      let second_output = Object.entries(output2).sort((f, s) => f[1] < s[1])[0];
+
       let target_user = q.find(x => Object.keys(x.output)[0] == output).input;
       target.appendChild(
         generateUser(
@@ -3001,7 +2986,6 @@ document.getElementById("match").onclick = () => {
           trg.diziSeviyor,
           trg.motorSeviyor,
           trg.basketSeviyor,
-          trg.sevdigiRenk
         )
       );
       target.appendChild(
@@ -3010,12 +2994,11 @@ document.getElementById("match").onclick = () => {
           target_user.diziSeviyor,
           target_user.motorSeviyor,
           target_user.basketSeviyor,
-          target_user.sevdigiRenk
         )
       );
 
       var results = new bootstrap.Modal(document.getElementById('cpp'))
-      
+
       loader.hide();
       results.show();
     }, 2500);
