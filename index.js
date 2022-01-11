@@ -2993,7 +2993,7 @@ document.getElementById("match").onclick = () => {
     setTimeout(() => {
       let target = document.getElementById("split");
       target.innerHTML = "";
-
+      let second_output = Object.entries(output2).sort((f, s) => f[1] < s[1])[0];
       let target_user = q.find(x => Object.keys(x.output)[0] == output).input;
       target.appendChild(
         generateUser(
